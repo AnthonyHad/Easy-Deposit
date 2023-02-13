@@ -34,6 +34,11 @@ export default function Home() {
           <div>
             <p>Signed in as {session.user.email} </p>
             <p>You can now access a super secret page! GG</p>
+            <div>
+              <button>
+                <Link href="/secret">To the secret</Link>
+              </button>
+            </div>
             <button onClick={() => signOut()}>SignOut</button>
           </div>
         )}
