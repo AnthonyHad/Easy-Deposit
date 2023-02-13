@@ -1,24 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 
-export default function Secret() {
+function Secret() {
   const { data: session, status } = useSession();
   const [message, setMessage] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('/api/secret');
-      const json = await res.json();
+      console.log(res);
+      const data = await res.json();
+      console.log(data);
 
-      if (json.message) {
-        setMessage(json.message);
+      if (data.message) {
+        setMessage(data.message);
       }
-      console.log(message, 'hello');
-      fetchData();
     };
+    fetchData();
   }, [session]);
+  if (typeof window !== 'undefined' && status === 'loading') return null;
 
-  console.log(session);
   if (!session) {
     return (
       <main>
@@ -37,3 +38,5 @@ export default function Secret() {
     </main>
   );
 }
+
+export default Secret;
