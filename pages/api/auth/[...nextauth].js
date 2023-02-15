@@ -4,10 +4,16 @@ import GitHubProvider from 'next-auth/providers/github';
 
 export default NextAuth({
   providers: [
-    // CoinbaseProvider({
-    //   clientId: '',
-    //   clientSecret: '',
-    // }),
+    CoinbaseProvider({
+      clientId: process.env.COINBASE_ID,
+      clientSecret: process.env.COINBASE_SECRET,
+      authorization: {
+        url: 'https://www.coinbase.com/oauth/authorize',
+        params: {
+          scope: 'wallet:accounts:read,wallet:transactions:read',
+        },
+      },
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
