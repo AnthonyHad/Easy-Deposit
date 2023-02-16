@@ -31,7 +31,7 @@ export default function Home() {
         )}
         {session && (
           <div>
-            <p>Signed in as {session.user.email} </p>
+            <p>Signed in as {session.user.email || session.user.name} </p>
             <p>You can now access a super secret page! GG</p>
             <div>
               <button>

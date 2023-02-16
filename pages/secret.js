@@ -8,9 +8,7 @@ function Secret() {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('/api/secret');
-      console.log(res);
       const data = await res.json();
-      console.log(data);
 
       if (data.message) {
         setMessage(data.message);
@@ -18,6 +16,7 @@ function Secret() {
     };
     fetchData();
   }, [session]);
+
   if (typeof window !== 'undefined' && status === 'loading') return null;
 
   if (!session) {
