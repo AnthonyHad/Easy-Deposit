@@ -35,3 +35,7 @@ export default NextAuth({
     },
   },
 });
+
+// Questions
+// 1. Is it relevant to send the token to the client?
+// 2. is it relevant to create specific API routes for each scope ?

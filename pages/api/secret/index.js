@@ -6,7 +6,7 @@ async function handler(req, res) {
   const session = await getServerSession(req, res);
 
   if (session) {
-    const url = 'https://api.coinbase.com/v2/accounts';
+    const url = 'https://api.coinbase.com/v2/accounts/BTC';
     const options = {
       headers: {
         Authorization: `Bearer ${token.accessToken}`,
@@ -16,6 +16,7 @@ async function handler(req, res) {
     const walletData = await fetch(url, options);
     const data = await walletData.json();
     console.log(data);
+    console.log(data.data.balance.amount);
     try {
       res.send({
         message: ' You have gained access to the super secret page!',
