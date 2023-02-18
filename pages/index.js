@@ -20,9 +20,14 @@ export default function Home() {
 
       <main>
         {!session && (
-          <div>
+          <div className="container flex flex-col items-center justify-center h-screen">
             <p>Not Signed in</p> <br />
-            <button onClick={() => signIn()}>Sign In</button>
+            <button
+              className="bg-indigo-500 hover:bg-indigo-700 text-base"
+              onClick={() => signIn()}
+            >
+              Sign In
+            </button>
           </div>
         )}
         {session && (

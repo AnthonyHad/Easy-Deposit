@@ -14,10 +14,6 @@ export default NextAuth({
         },
       },
     }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
   ],
   callbacks: {
     async jwt({ token, account, profile }) {

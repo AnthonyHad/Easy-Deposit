@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 function Secret() {
   const { data: session, status } = useSession();
   const [message, setMessage] = useState();
+  const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,13 +13,22 @@ function Secret() {
 
       if (data.message) {
         setMessage(data.message);
+        const transformedAccounts = data.accounts.map(
+          (account) => account.currency.code
+        );
+        setAccounts(transformedAccounts);
       }
     };
     fetchData();
   }, [session]);
 
-  if (typeof window !== 'undefined' && status === 'loading')
-    return <p>Loading.....</p>;
+  // const accountList = accounts.map((account) => (
+  //   <ul key={account.id}>
+  //     <li>{account.id}</li>
+  //   </ul>
+  // ));
+
+  if (status === 'loading') return <p>Loading.....</p>;
 
   if (!session) {
     return (
@@ -33,7 +43,12 @@ function Secret() {
     <main>
       <div>
         <h1> This is the protected page</h1>
-        <p style={{ color: 'red' }}>{message}</p>
+        <p>{message}</p>
+        <ol>
+          {accounts.map((account) => (
+            <li key={account}>{account}</li>
+          ))}
+        </ol>
       </div>
     </main>
   );
