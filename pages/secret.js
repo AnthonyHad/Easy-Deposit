@@ -17,7 +17,8 @@ function Secret() {
     fetchData();
   }, [session]);
 
-  if (typeof window !== 'undefined' && status === 'loading') return null;
+  if (typeof window !== 'undefined' && status === 'loading')
+    return <p>Loading.....</p>;
 
   if (!session) {
     return (
@@ -31,7 +32,7 @@ function Secret() {
   return (
     <main>
       <div>
-        <h1> Protected Page</h1>
+        <h1> This is the protected page</h1>
         <p style={{ color: 'red' }}>{message}</p>
       </div>
     </main>
