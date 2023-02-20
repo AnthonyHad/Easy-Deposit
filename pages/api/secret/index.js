@@ -13,10 +13,10 @@ async function handler(req, res) {
         'CB-VERSION': '2023-02-11',
       },
     };
-
+    console.log('token', token.accessToken);
     const walletData = await fetch(url, options);
     const accounts = await walletData.json();
-    console.log(accounts.data);
+    // console.log(accounts);
 
     try {
       res.send({

@@ -18,12 +18,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="container mx-auto">
+        <div className="flex flex-col items-center">
+          <h1 className="text-4xl">Easy Deposit</h1>
+          <h2 className="text-lg">
+            Deposit crypto from you favaorite excahnges to any account or your
+            Ledger easily!
+          </h2>
+        </div>
         {!session && (
-          <div className="container flex flex-col items-center justify-center h-screen">
+          <div className=" flex flex-col items-center justify-center h-screen">
             <p>Not Signed in</p> <br />
             <button
-              className="bg-indigo-500 hover:bg-indigo-700 text-base"
+              className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4"
               onClick={() => signIn()}
             >
               Sign In
@@ -35,7 +42,7 @@ export default function Home() {
             <p>Signed in as {session.user.email || session.user.name} </p>
             <p>You can now access a super secret page! GG</p>
             <div>
-              <button>
+              <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
                 <Link href="/secret">To the secret</Link>
               </button>
             </div>
