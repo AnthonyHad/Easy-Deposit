@@ -15,13 +15,18 @@ async function handler(req, res) {
     };
     console.log('token', token.accessToken);
     const walletData = await fetch(url, options);
-    const accounts = await walletData.json();
-    // console.log(accounts);
-
+    const { data: accounts } = await walletData.json();
+    const formattedWalletData = accounts.map((account) => ({
+      name: account.currency.name,
+      amount: account.balance.amount,
+      currency: account.currency.code,
+      resourcePath: account.resource_path,
+    }));
+    console.log(formattedWalletData);
     try {
       res.send({
         message: ' You have gained access to the super secret page!',
-        accounts: accounts.data,
+        accounts: formattedWalletData,
       });
     } catch (error) {
       console.log('I am here');

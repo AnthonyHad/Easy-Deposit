@@ -13,10 +13,7 @@ function Secret() {
 
       if (data.message) {
         setMessage(data.message);
-        const transformedAccounts = data.accounts.map(
-          (account) => account.currency.code
-        );
-        setAccounts(transformedAccounts);
+        setAccounts(data.accounts);
       }
     };
     fetchData();
@@ -46,7 +43,12 @@ function Secret() {
         <p>{message}</p>
         <ol>
           {accounts.map((account) => (
-            <li key={account}>{account}</li>
+            <li key={account}>
+              {account.name}
+              <p>
+                {account.amount} {account.currency}
+              </p>
+            </li>
           ))}
         </ol>
       </div>
