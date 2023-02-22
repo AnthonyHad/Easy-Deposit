@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useSession } from 'next-auth/react';
+
+import UserAsset from 'components/user-asset';
 
 function Secret() {
   const { data: session, status } = useSession();
@@ -19,11 +21,14 @@ function Secret() {
     fetchData();
   }, [session]);
 
-  // const accountList = accounts.map((account) => (
-  //   <ul key={account.id}>
-  //     <li>{account.id}</li>
-  //   </ul>
-  // ));
+  const accountsList = accounts.map((account) => (
+    <UserAsset
+      key={account.currency}
+      name={account.name}
+      currency={account.currency}
+      amount={account.amount}
+    />
+  ));
 
   if (status === 'loading') return <p>Loading.....</p>;
 
@@ -40,17 +45,10 @@ function Secret() {
     <main>
       <div>
         <h1> This is the protected page</h1>
-        <p>{message}</p>
-        <ol>
-          {accounts.map((account) => (
-            <li key={account}>
-              {account.name}
-              <p>
-                {account.amount} {account.currency}
-              </p>
-            </li>
-          ))}
-        </ol>
+        <Fragment>
+          <p>{message}</p>
+          {accountsList}
+        </Fragment>
       </div>
     </main>
   );
