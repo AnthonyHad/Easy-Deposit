@@ -3,11 +3,12 @@ import { useSession } from 'next-auth/react';
 
 import UserAsset from 'components/user-asset';
 
-function Secret() {
+function Accounts() {
   const { data: session, status } = useSession();
   const [message, setMessage] = useState();
   const [accounts, setAccounts] = useState([]);
 
+  // might be able to add this to getStaticProps
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch('/api/secret');
@@ -54,4 +55,4 @@ function Secret() {
   );
 }
 
-export default Secret;
+export default Accounts;

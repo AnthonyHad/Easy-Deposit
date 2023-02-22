@@ -43,7 +43,7 @@ export default function Home() {
             <p>You can now access a super secret page! GG</p>
             <div>
               <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
-                <Link href="/secret">To the secret</Link>
+                <Link href="/accounts">To the secret</Link>
               </button>
             </div>
             <button onClick={() => signOut()}>SignOut</button>
