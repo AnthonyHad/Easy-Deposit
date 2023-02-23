@@ -26,7 +26,7 @@ function Accounts() {
   const accountsList = accounts.map((account) => (
     <Link
       key={account.currency}
-      href={`/accounts/${account.name}/${account.currency}/${account.amount}`}
+      href={`/accounts/${account.name}/${account.currency}/${account.amount}/${account.resourcePath}`}
     >
       <UserAsset
         name={account.name}

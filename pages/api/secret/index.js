@@ -20,8 +20,9 @@ async function handler(req, res) {
       name: account.currency.name,
       amount: account.balance.amount,
       currency: account.currency.code,
-      resourcePath: account.resource_path,
+      resourcePath: account.resource_path.substring(1),
     }));
+    console.log(formattedWalletData);
 
     try {
       res.send({

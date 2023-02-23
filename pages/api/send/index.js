@@ -1,4 +1,4 @@
-function Send() {
+async function Send() {
   return;
 }
 

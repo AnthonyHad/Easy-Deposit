@@ -1,6 +1,26 @@
+import { useRef } from 'react';
+//need to add validation and create an idem field onSubmit
+
 function SendForm(props) {
+  const toInputRef = useRef();
+  const currencyInputRef = useRef();
+  const amountInputRef = useRef();
+  const resourcePathInputRef = useRef();
+
+  function sendFundsHandler(event) {
+    event.preventDefault();
+    const enteredTo = toInputRef.current.value;
+    const enteredCurrency = currencyInputRef.current.value;
+    const enteredAmount = amountInputRef.current.value;
+    const enteredResourcePath = resourcePathInputRef.current.value;
+
+    console.log(enteredAmount, enteredCurrency, enteredResourcePath, enteredTo);
+
+    return;
+  }
+
   return (
-    <form className="w-full max-w-lg ml-8">
+    <form className="w-full max-w-lg ml-8" onSubmit={sendFundsHandler}>
       <div className="flex flex-wrap -mx-3 mb-6">
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label
@@ -18,7 +38,12 @@ function SendForm(props) {
           >
             Currency
           </label>
-          <input type="text" defaultValue={props.currency} readOnly />
+          <input
+            type="text"
+            defaultValue={props.currency}
+            ref={currencyInputRef}
+            readOnly
+          />
         </div>
         <div>
           <label
@@ -27,7 +52,11 @@ function SendForm(props) {
           >
             Balance
           </label>
-          <input type="number" defaultValue={props.amount} />
+          <input
+            type="number"
+            defaultValue={props.amount}
+            ref={amountInputRef}
+          />
         </div>
         <div>
           <label
@@ -36,10 +65,19 @@ function SendForm(props) {
           >
             To
           </label>
-          <input type="text" placeholder="0x123435634" />
+          <input type="text" placeholder="0x123435634" ref={toInputRef} />
         </div>
         <div>
-          <input type="hidden" value="resourcePath" />
+          <input
+            type="hidden"
+            defaultValue={props.resourcePath}
+            ref={resourcePathInputRef}
+          />
+        </div>
+        <div>
+          <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
+            Send Funds
+          </button>
         </div>
       </div>
     </form>
