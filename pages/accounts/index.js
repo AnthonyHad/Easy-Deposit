@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 
 import UserAsset from 'components/user-asset';
 
@@ -23,12 +24,16 @@ function Accounts() {
   }, [session]);
 
   const accountsList = accounts.map((account) => (
-    <UserAsset
+    <Link
       key={account.currency}
-      name={account.name}
-      currency={account.currency}
-      amount={account.amount}
-    />
+      href={`/accounts/${account.name}/${account.currency}/${account.amount}`}
+    >
+      <UserAsset
+        name={account.name}
+        currency={account.currency}
+        amount={account.amount}
+      />
+    </Link>
   ));
 
   if (status === 'loading') return <p>Loading.....</p>;

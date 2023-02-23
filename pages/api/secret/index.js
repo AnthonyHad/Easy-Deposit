@@ -22,7 +22,7 @@ async function handler(req, res) {
       currency: account.currency.code,
       resourcePath: account.resource_path,
     }));
-    console.log(formattedWalletData);
+
     try {
       res.send({
         message: ' You have gained access to the super secret page!',
