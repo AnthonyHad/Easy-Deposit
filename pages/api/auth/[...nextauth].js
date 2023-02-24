@@ -9,7 +9,8 @@ export default NextAuth({
       authorization: {
         url: 'https://www.coinbase.com/oauth/authorize',
         params: {
-          scope: 'wallet:accounts:read,wallet:transactions:read',
+          scope:
+            'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send,wallet:transactions:transfer',
         },
       },
     }),
