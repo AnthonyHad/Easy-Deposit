@@ -1,5 +1,8 @@
-async function Send() {
-  return;
+async function handler(req, res) {
+  console.log(req.body);
+  res.send({
+    message: 'coucou!!!',
+  });
 }
 
-export default Send;
+export default handler;

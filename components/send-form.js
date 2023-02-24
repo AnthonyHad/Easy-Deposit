@@ -16,7 +16,12 @@ function SendForm(props) {
 
     console.log(enteredAmount, enteredCurrency, enteredResourcePath, enteredTo);
 
-    return;
+    props.onInitiateSend({
+      amount: enteredAmount,
+      currency: enteredCurrency,
+      to: enteredTo,
+      resourcePath: enteredResourcePath,
+    });
   }
 
   return (
