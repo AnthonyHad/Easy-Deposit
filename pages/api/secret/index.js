@@ -13,7 +13,7 @@ async function handler(req, res) {
         'CB-VERSION': '2023-02-11',
       },
     };
-    console.log('token', token.accessToken);
+    // console.log('token', token.accessToken);
     const walletData = await fetch(url, options);
     const { data: accounts } = await walletData.json();
     const formattedWalletData = accounts.map((account) => ({
@@ -22,7 +22,7 @@ async function handler(req, res) {
       currency: account.currency.code,
       resourcePath: account.resource_path.substring(1),
     }));
-    console.log(formattedWalletData);
+    // console.log(formattedWalletData);
 
     try {
       res.send({

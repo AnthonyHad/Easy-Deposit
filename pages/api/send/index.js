@@ -8,6 +8,7 @@ import { getToken } from 'next-auth/jwt';
 async function handler(req, res) {
   const token = await getToken({ req });
   const session = await getServerSession(req, res);
+  console.log('token', token);
 
   const { amount, currency, to, resourcePath } = req.body;
   const resourcePathStartingIndex = resourcePath.lastIndexOf(',');
@@ -32,8 +33,12 @@ async function handler(req, res) {
     };
     const sendStatus = await fetch(url, options);
     const data = await sendStatus.json();
+    //need to check response for 2FA requirement  and replay request
     console.log(data);
+    res.send(data);
   }
 }
 
 export default handler;
+
+// How to best handle this part as I need to persist the data and resend a request with the CB header

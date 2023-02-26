@@ -11,6 +11,8 @@ function AccountData() {
   }
 
   function sendTransactionHandler(transactionData) {
+    const transactionDataWithTwoFactor = { ...transactionData }; // creating a copy of the transaction data.
+
     fetch('/api/send', {
       method: 'POST',
       body: JSON.stringify(transactionData),
@@ -19,7 +21,22 @@ function AccountData() {
       },
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (
+          data.errors &&
+          data.errors[0] &&
+          data.errors[0].id === 'two_factor_required'
+        ) {
+          console.log('I am here');
+          transactionDataWithTwoFactor.requiresTwoFactor = true;
+          transactionDataWithTwoFactor.transactionResponse = data;
+          localStorage.setItem(
+            'transactionData',
+            JSON.stringify(transactionDataWithTwoFactor)
+          );
+          router.push('/accounts/two-fa');
+        }
+      });
   }
 
   return (

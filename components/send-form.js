@@ -61,6 +61,7 @@ function SendForm(props) {
             type="number"
             defaultValue={props.amount}
             ref={amountInputRef}
+            step="any"
           />
         </div>
         <div>
