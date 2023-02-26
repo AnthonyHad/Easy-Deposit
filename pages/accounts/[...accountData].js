@@ -34,7 +34,7 @@ function AccountData() {
             'transactionData',
             JSON.stringify(transactionDataWithTwoFactor)
           );
-          router.push('/accounts/two-fa');
+          router.push('/accounts/two-factor-auth');
         }
       });
   }
