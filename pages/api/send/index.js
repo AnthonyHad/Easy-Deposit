@@ -10,7 +10,7 @@ async function handler(req, res) {
   const session = await getServerSession(req, res);
   console.log('token', token);
 
-  const { amount, currency, to, resourcePath } = req.body;
+  const { amount, currency, to, resourcePath, twoFactorCode } = req.body;
   const resourcePathStartingIndex = resourcePath.lastIndexOf(',');
   const resourcePathPrecise = resourcePath.slice(resourcePathStartingIndex + 1);
   console.log(amount, currency, to, resourcePathPrecise);
@@ -23,6 +23,7 @@ async function handler(req, res) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token.accessToken}`,
         'CB-VERSION': '2023-02-11',
+        'CB-2FA-Token': twoFactorCode,
       },
       body: JSON.stringify({
         type: 'send',
