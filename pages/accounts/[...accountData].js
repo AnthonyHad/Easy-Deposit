@@ -51,3 +51,5 @@ function AccountData() {
 }
 
 export default AccountData;
+
+// might need to refresh the page in case the user buys some crypto

@@ -22,7 +22,7 @@ function TwoFactorAuth() {
     fetch('/api/send', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/html',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(transactionData),
     })

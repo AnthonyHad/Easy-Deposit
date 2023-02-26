@@ -23,7 +23,6 @@ async function handler(req, res) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token.accessToken}`,
         'CB-VERSION': '2023-02-11',
-        'CB-2FA-Token': twoFactorCode,
       },
       body: JSON.stringify({
         type: 'send',
@@ -32,6 +31,10 @@ async function handler(req, res) {
         currency: currency,
       }),
     };
+
+    if (twoFactorCode) {
+      options.headers['CB-2FA-Token'] = twoFactorCode;
+    }
     const sendStatus = await fetch(url, options);
     const data = await sendStatus.json();
     //need to check response for 2FA requirement  and replay request
@@ -43,3 +46,4 @@ async function handler(req, res) {
 export default handler;
 
 // How to best handle this part as I need to persist the data and resend a request with the CB header
+// test pub addre bc1q9ypueyqk4j29ce9nhn956d28gycegrmc402wsa
