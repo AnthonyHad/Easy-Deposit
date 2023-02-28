@@ -27,6 +27,7 @@ function TwoFactorAuth() {
       body: JSON.stringify(transactionData),
     })
       .then((response) => response.json())
+      // will need to poll here to check transaction data check documentation
       .then((data) => console.log(data));
 
     // setTwoFactoreCode('');
