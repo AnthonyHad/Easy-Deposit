@@ -16,14 +16,15 @@ async function handler(req, res) {
     // console.log('token', token.accessToken);
     const walletData = await fetch(url, options);
     const { data: accounts } = await walletData.json();
-    console.log(accounts);
-    const formattedWalletData = accounts.map((account) => ({
-      name: account.currency.name,
-      amount: account.balance.amount,
-      currency: account.currency.code,
-      resourcePath: account.resource_path.substring(1),
-    }));
-    // console.log(formattedWalletData);
+    const formattedWalletData = accounts
+      .filter((account) => parseFloat(account.balance.amount) > 0)
+      .map((account) => ({
+        name: account.currency.name,
+        amount: account.balance.amount,
+        currency: account.currency.code,
+        resourcePath: account.resource_path.substring(1),
+      }));
+    console.log(formattedWalletData);
 
     try {
       res.send({
