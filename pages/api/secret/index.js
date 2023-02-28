@@ -16,6 +16,7 @@ async function handler(req, res) {
     // console.log('token', token.accessToken);
     const walletData = await fetch(url, options);
     const { data: accounts } = await walletData.json();
+    console.log(accounts);
     const formattedWalletData = accounts.map((account) => ({
       name: account.currency.name,
       amount: account.balance.amount,

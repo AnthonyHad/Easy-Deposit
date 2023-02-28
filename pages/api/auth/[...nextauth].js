@@ -9,11 +9,7 @@ export default NextAuth({
       authorization: {
         url: 'https://www.coinbase.com/oauth/authorize',
         params: {
-          scope:
-            'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send,wallet:transactions:transfer',
-          'meta[send_limit_amount]': '1',
-          'meta[send_limit_currency': 'USD',
-          'meta[send_limit_period]': 'day',
+          scope: 'wallet:accounts:read,wallet:transactions:read',
         },
       },
     }),
