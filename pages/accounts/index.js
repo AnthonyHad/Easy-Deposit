@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+
 import Link from 'next/link';
 
 import UserAsset from 'components/user-asset';
@@ -39,6 +40,7 @@ function Accounts() {
   if (status === 'loading') return <p>Loading.....</p>;
 
   if (!session) {
+    //redirect to Sign In page
     return (
       <main>
         <div>
@@ -54,6 +56,7 @@ function Accounts() {
         <Fragment>
           <p>{message}</p>
           {accountsList}
+          <button onClick={() => signOut()}>SignOut</button>
         </Fragment>
       </div>
     </main>

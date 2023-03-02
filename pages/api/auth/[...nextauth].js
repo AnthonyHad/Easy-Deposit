@@ -9,15 +9,15 @@ export default NextAuth({
       authorization: {
         url: 'https://www.coinbase.com/oauth/authorize',
         params: {
-          scope:
-            'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send,wallet:transactions:transfer',
-          'meta[send_limit_amount]': '1',
-          'meta[send_limit_currency': 'USD',
-          'meta[send_limit_period]': 'day',
+          scope: 'wallet:accounts:read,wallet:transactions:read',
+          account: 'all',
         },
       },
     }),
   ],
+  pages: {
+    signIn: '/',
+  },
   callbacks: {
     async jwt({ token, account, profile }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
@@ -31,5 +31,4 @@ export default NextAuth({
 });
 
 // Questions
-// 1. Is it relevant to send the token to the client?
 // 2. is it relevant to create specific API routes for each scope ?
