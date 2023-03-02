@@ -1,18 +1,40 @@
+import { signIn, useSession } from 'next-auth/react';
+
 import { useRouter } from 'next/router';
 import SendForm from '@/components/send-form';
 
 function AccountData() {
   const router = useRouter();
+  const { data: session } = useSession();
+
   const { accountData } = router.query;
   const [name, currency, amount, ...resourcePath] = accountData || [];
 
   if (!accountData || !name || !currency || !amount || !resourcePath) {
     return <div>Loading...</div>;
   }
-
-  function sendTransactionHandler(transactionData) {
+  console.log(session);
+  async function sendTransactionHandler(transactionData) {
     const transactionDataWithTwoFactor = { ...transactionData }; // creating a copy of the transaction data.
 
+    if (
+      !session ||
+      !session.accessToken ||
+      !session.scope.includes('wallet:transactions:send')
+    ) {
+      // Reauthenticate the user and get new permissions and check on scopes
+      await signIn('coinbase', undefined, {
+        scope:
+          'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send',
+        'meta[send_limit_amount]': '1',
+        'meta[send_limit_currency': 'USD',
+        'meta[send_limit_period]': 'day',
+        account: 'all',
+      });
+    }
+
+    //Send Transaction Data
+    console.log('I am hereeee');
     fetch('/api/send', {
       method: 'POST',
       body: JSON.stringify(transactionData),
