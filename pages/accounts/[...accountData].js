@@ -1,10 +1,11 @@
-import { getSession, signIn } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 
 import { useRouter } from 'next/router';
 import SendForm from '@/components/send-form';
 
 function AccountData() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const { accountData } = router.query;
   const [name, currency, amount, ...resourcePath] = accountData || [];
@@ -15,7 +16,7 @@ function AccountData() {
 
   async function sendTransactionHandler(transactionData) {
     const transactionDataWithTwoFactor = { ...transactionData }; // creating a copy of the transaction data.
-    const session = await getSession();
+
     if (!session.scope.includes('wallet:transactions:send')) {
       // Reauthenticate the user and get new permissions and check on scopes
       await signIn('coinbase', undefined, {
@@ -29,7 +30,6 @@ function AccountData() {
       session.scope =
         'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send';
     }
-    console.log(session);
 
     //Send Transaction Data
 
