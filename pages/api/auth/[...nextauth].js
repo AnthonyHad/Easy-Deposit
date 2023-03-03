@@ -1,6 +1,5 @@
 import NextAuth from 'next-auth';
 import CoinbaseProvider from 'next-auth/providers/coinbase';
-import { getProviders } from 'next-auth/react';
 
 export default NextAuth({
   providers: [
@@ -23,19 +22,18 @@ export default NextAuth({
     async jwt({ token, account, profile }) {
       // Persist the OAuth access_token and or the user id to the token right after signin
       if (account) {
+        //not sure we need to pass the access token here
         token.accessToken = account.access_token;
-        token.id = profile.id;
+        token.scope = account.scope;
+
+        console.log('token', token);
+        console.log('account', account);
       }
       return token;
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
-
-      const providers = await getProviders();
-      console.log(providers);
-
-      // session.scope = 'wallet:accounts:read,wallet:transactions:read';
-      // console.log(session);
+      session.scope = token.scope;
 
       return session;
     },
