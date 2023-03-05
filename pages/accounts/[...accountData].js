@@ -23,7 +23,7 @@ function AccountData() {
         scope:
           'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send',
         'meta[send_limit_amount]': '1',
-        'meta[send_limit_currency': 'USD',
+        'meta[send_limit_currency]': 'USD',
         'meta[send_limit_period]': 'day',
         account: 'all',
       });
