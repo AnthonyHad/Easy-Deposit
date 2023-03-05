@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 import Link from 'next/link';
 
@@ -45,6 +45,7 @@ function Accounts() {
       <main>
         <div>
           <h1>You are not signed in, please sign in first</h1>
+          <button onClick={() => signIn('coinbase')}>SignIn</button>
         </div>
       </main>
     );

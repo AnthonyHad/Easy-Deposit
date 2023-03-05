@@ -17,8 +17,9 @@ function AccountData() {
   async function sendTransactionHandler(transactionData) {
     const transactionDataWithTwoFactor = { ...transactionData }; // creating a copy of the transaction data.
 
-    if (!session.scope.includes('wallet:transactions:send')) {
+    if (!session || !session.scope.includes('wallet:transactions:send')) {
       // Reauthenticate the user and get new permissions and check on scopes
+
       await signIn('coinbase', undefined, {
         scope:
           'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send',
@@ -32,7 +33,6 @@ function AccountData() {
     }
 
     //Send Transaction Data
-
     fetch('/api/send', {
       method: 'POST',
       body: JSON.stringify(transactionData),
@@ -42,20 +42,30 @@ function AccountData() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('response data:', data);
+
         if (
           data.errors &&
           data.errors[0] &&
           data.errors[0].id === 'two_factor_required'
         ) {
           console.log('I am here');
+
           transactionDataWithTwoFactor.requiresTwoFactor = true;
           transactionDataWithTwoFactor.transactionResponse = data;
           localStorage.setItem(
             'transactionData',
             JSON.stringify(transactionDataWithTwoFactor)
           );
+          console.log('redirecting user to twoFA page');
+          debugger;
           router.push('/accounts/two-factor-auth');
+        } else {
+          console.log('unexpected response:', data);
         }
+      })
+      .catch((error) => {
+        console.error('Send Request Failed', error);
       });
   }
 
