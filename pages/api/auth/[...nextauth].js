@@ -41,6 +41,3 @@ export default NextAuth({
     },
   },
 });
-
-// Questions
-// 2. is it relevant to create specific API routes for each scope ?
