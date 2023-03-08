@@ -13,7 +13,9 @@ function AccountData() {
 
   useEffect(() => {
     //Send Transaction Data
+
     const storedData = localStorage.getItem('transactionData');
+    //if a user makes a mistake this might not be enough in the if statement
     if (storedData) {
       const transactionDataWithTwoFactor = JSON.parse(storedData);
       fetch('/api/send', {
