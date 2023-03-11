@@ -6,6 +6,7 @@ async function handler(req, res) {
   const session = await getServerSession(req, res);
 
   if (session) {
+    console.log('token', token);
     const url = 'https://api.coinbase.com/v2/accounts';
     const options = {
       headers: {

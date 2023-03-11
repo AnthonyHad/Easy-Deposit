@@ -1,59 +1,75 @@
 import { useState, useEffect, Fragment } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-
+import { useRouter } from 'next/router';
 import UserAsset from 'components/user-asset';
 
 function Accounts() {
   const { data: session, status } = useSession();
   const [message, setMessage] = useState();
   const [accounts, setAccounts] = useState([]);
+  const router = useRouter();
 
-  // might be able to add this to getStaticProps
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('/api/secret');
-      const data = await res.json();
+      try {
+        const res = await fetch('/api/secret');
+        const data = await res.json();
 
-      if (data.message) {
-        setMessage(data.message);
-        setAccounts(data.accounts);
+        if (data.message) {
+          setMessage(data.message);
+          setAccounts(data.accounts);
+        }
+      } catch (error) {
+        console.error(error);
+        // Display an appropriate error message to the user
+        setMessage('An error occurred while fetching data');
       }
     };
     fetchData();
   }, [session]);
 
-  const accountsList = accounts.map((account) => (
-    <Link
-      key={account.currency}
-      href={`/accounts/${account.name}/${account.currency}/${account.amount}/${account.resourcePath}`}
-    >
-      <UserAsset
-        name={account.name}
-        currency={account.currency}
-        amount={account.amount}
-      />
-    </Link>
-  ));
+  const accountsList = accounts.map(
+    ({ name, currency, amount, resourcePath }) => (
+      <Link
+        key={currency}
+        href={`/accounts/${name}/${currency}/${amount}/${resourcePath}`}
+      >
+        <UserAsset name={name} currency={currency} amount={amount} />
+      </Link>
+    )
+  );
 
-  if (status === 'loading') return <p>Loading.....</p>;
+  useEffect(() => {
+    if (!session) {
+      router.replace('/');
+    }
+  }, [session]);
 
   if (!session) {
-    //redirect to Sign In page
     return (
       <main>
         <div>
           <h1>You are not signed in, please sign in first</h1>
-          <button onClick={() => signIn('coinbase')}>SignIn</button>
         </div>
       </main>
     );
   }
+
+  if (status === 'loading' || accounts.length === 0) {
+    return (
+      <main>
+        <div>
+          <h1>Loading accounts...</h1>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main>
       <div>
-        <h1> This is the protected page</h1>
+        <h1>Here is a list of all you accounts</h1>
         <Fragment>
           <p>{message}</p>
           {accountsList}
@@ -65,3 +81,6 @@ function Accounts() {
 }
 
 export default Accounts;
+
+//Questions:
+// Not sure I need to fetch everytime the accounts, might need a combination of GetStatic Props and useEffect
