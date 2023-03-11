@@ -1,11 +1,23 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 //need to add validation and create an idem field onSubmit
 
 function SendForm(props) {
+  const [feeAmount, setFeeAmount] = useState(0);
   const toInputRef = useRef();
   const currencyInputRef = useRef();
   const amountInputRef = useRef();
   const resourcePathInputRef = useRef();
+  const feeInputRef = useRef();
+
+  function calculateFee() {
+    const enteredAmount = parseFloat(amountInputRef.current.value);
+    if (isNaN(enteredAmount)) {
+      setFeeAmount(0);
+      return;
+    }
+    const fee = enteredAmount * 0.002; // 0.2% fee
+    setFeeAmount(fee);
+  }
 
   function sendFundsHandler(event) {
     event.preventDefault();
@@ -21,6 +33,7 @@ function SendForm(props) {
       currency: enteredCurrency,
       to: enteredTo,
       resourcePath: enteredResourcePath,
+      fee: feeAmount,
     });
   }
 
@@ -62,6 +75,7 @@ function SendForm(props) {
             defaultValue={props.amount}
             ref={amountInputRef}
             step="any"
+            onChange={calculateFee}
           />
         </div>
         <div>
@@ -80,6 +94,19 @@ function SendForm(props) {
             ref={resourcePathInputRef}
           />
         </div>
+        <label
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="fee"
+        >
+          Fee
+        </label>
+        <input
+          type="number"
+          value={feeAmount}
+          ref={feeInputRef}
+          step="any"
+          readOnly
+        />
         <div>
           <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
             Send Funds
