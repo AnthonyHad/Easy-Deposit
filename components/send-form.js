@@ -1,6 +1,15 @@
 import { useRef, useState } from 'react';
 //need to add validation and create an idem field onSubmit
 
+const CURRENCY_FEE_STRUCTURE = {
+  BTC: { type: 'flat', value: 0.0001 }, // flat fee of 0.0001 BTC
+  ETH: { type: 'flat', value: 0.0015 }, // flat fee of 0.0015 ETH
+  USDT: { type: 'flat', value: 3 }, // flat fee of 3 USDT
+  USDC: { type: 'flat', value: 3 }, // flat fee of 3 USDC
+  MATIC: { type: 'variable', value: 0.002 }, // 0.2% variable fee for MATIC
+  // Add more currencies and corresponding fees as needed
+};
+
 function SendForm(props) {
   const [feeAmount, setFeeAmount] = useState(0);
   const toInputRef = useRef();
@@ -15,8 +24,18 @@ function SendForm(props) {
       setFeeAmount(0);
       return;
     }
-    const fee = enteredAmount * 0.002; // 0.2% fee
-    setFeeAmount(fee);
+    const feeStructure = CURRENCY_FEE_STRUCTURE[props.currency];
+    if (!feeStructure) {
+      setFeeAmount(0.002 * enteredAmount); // Default to 0.2% fee if currency not found
+      return;
+    }
+    if (feeStructure.type === 'flat') {
+      const fee = feeStructure.value;
+      setFeeAmount(fee);
+    } else if (feeStructure.type === 'variable') {
+      const fee = enteredAmount * feeStructure.value;
+      setFeeAmount(fee);
+    }
   }
 
   function sendFundsHandler(event) {
