@@ -91,7 +91,7 @@ function SendForm(props) {
           </label>
           <input
             type="number"
-            defaultValue={props.amount}
+            placeholder={props.amount}
             ref={amountInputRef}
             step="any"
             onChange={calculateFee}

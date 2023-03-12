@@ -65,7 +65,7 @@ function AccountData() {
 
   async function sendTransactionHandler(transactionData) {
     const transactionDataWithTwoFactor = { ...transactionData }; // creating a copy of the transaction data.
-
+    console.log(transactionData);
     if (!session || !session.scope.includes('wallet:transactions:send')) {
       // Reauthenticate the user and get new permissions and check on scopes
       localStorage.setItem(
