@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 function TwoFactorAuth() {
   const [transactionData, setTransactionData] = useState(null);
   const [twoFactorCode, setTwoFactoreCode] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     const storedData = localStorage.getItem('transactionData');
@@ -35,20 +38,29 @@ function TwoFactorAuth() {
 
   function handleTwoFactorChange(event) {
     setTwoFactoreCode(event.target.value);
+    router.replace('/accounts');
+  }
+
+  function cancelTansaction() {
+    localStorage.removeItem('transactionData');
+    router.replace('/accounts');
   }
 
   return (
-    <form onSubmit={handleTwoFactorSubmit}>
-      <label>
-        2FA Code:
-        <input
-          type="text"
-          value={twoFactorCode}
-          onChange={handleTwoFactorChange}
-        />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+    <Fragment>
+      <form onSubmit={handleTwoFactorSubmit}>
+        <label>
+          2FA Code:
+          <input
+            type="text"
+            value={twoFactorCode}
+            onChange={handleTwoFactorChange}
+          />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      <button onClick={cancelTansaction}>Cancel Transaction</button>
+    </Fragment>
   );
 }
 
