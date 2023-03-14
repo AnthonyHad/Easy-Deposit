@@ -6,7 +6,6 @@ import UserAsset from 'components/user-asset';
 
 function Accounts() {
   const { data: session, status } = useSession();
-  const [message, setMessage] = useState();
   const [accounts, setAccounts] = useState([]);
   const router = useRouter();
 
@@ -17,7 +16,6 @@ function Accounts() {
         const data = await res.json();
 
         if (data.message) {
-          setMessage(data.message);
           setAccounts(data.accounts);
         }
       } catch (error) {
@@ -70,9 +68,11 @@ function Accounts() {
   return (
     <main>
       <div>
-        <h1>Here is a list of all you accounts</h1>
+        <h1>
+          Here is a list of all supported assets which you can migrate to Ledger
+          easily!
+        </h1>
         <Fragment>
-          <p>{message}</p>
           {accountsList}
           <button onClick={() => signOut()}>SignOut</button>
         </Fragment>

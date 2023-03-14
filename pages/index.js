@@ -9,8 +9,7 @@ export default function SignIn({ providers }) {
         <div className="flex flex-col items-center">
           <h1 className="text-4xl">Easy Deposit</h1>
           <h2 className="text-lg">
-            Deposit crypto from you favaorite excahnges to any account or your
-            Ledger easily!
+            Deposit crypto from you favorite exchanges to your Ledger easily!
           </h2>
         </div>
       </main>
