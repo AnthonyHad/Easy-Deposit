@@ -2,7 +2,7 @@ import { useSession, signIn, getSession } from 'next-auth/react';
 
 import { useRouter } from 'next/router';
 import SendForm from '@/components/send-form';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 function AccountData() {
   const router = useRouter();
@@ -10,12 +10,10 @@ function AccountData() {
 
   const { accountData } = router.query;
   const [name, currency, amount, ...resourcePath] = accountData || [];
-  // const [storedTransactionData, setStoredTransactionData] = useState();
 
   useEffect(() => {
     const storageData = localStorage.getItem('transactionData');
     if (storageData) {
-      // setStoredTransactionData(JSON.parse(storageData));
       const transactionDataWithTwoFactor = JSON.parse(storageData);
       if (transactionDataWithTwoFactor.requiresTwoFactor) {
         localStorage.removeItem('transactionData'); // Clear stored data here
@@ -121,7 +119,6 @@ function AccountData() {
         data.errors[0].id === 'two_factor_required'
       ) {
         console.log('I am here');
-
         transactionDataWithTwoFactor.requiresTwoFactor = true;
         transactionDataWithTwoFactor.transactionResponse = data;
         localStorage.setItem(
