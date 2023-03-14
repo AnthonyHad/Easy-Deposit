@@ -1,11 +1,42 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 //need to add validation and create an idem field onSubmit
 
+const CURRENCY_FEE_STRUCTURE = {
+  BTC: { type: 'flat', value: 0.0001 }, // flat fee of 0.0001 BTC
+  ETH: { type: 'flat', value: 0.0015 }, // flat fee of 0.0015 ETH
+  USDT: { type: 'flat', value: 3 }, // flat fee of 3 USDT
+  USDC: { type: 'flat', value: 3 }, // flat fee of 3 USDC
+  MATIC: { type: 'variable', value: 0.002 }, // 0.2% variable fee for MATIC
+  // Add more currencies and corresponding fees as needed
+};
+
 function SendForm(props) {
+  const [feeAmount, setFeeAmount] = useState(0);
   const toInputRef = useRef();
   const currencyInputRef = useRef();
   const amountInputRef = useRef();
   const resourcePathInputRef = useRef();
+  const feeInputRef = useRef();
+
+  function calculateFee() {
+    const enteredAmount = parseFloat(amountInputRef.current.value);
+    if (isNaN(enteredAmount)) {
+      setFeeAmount(0);
+      return;
+    }
+    const feeStructure = CURRENCY_FEE_STRUCTURE[props.currency];
+    if (!feeStructure) {
+      setFeeAmount(0.002 * enteredAmount); // Default to 0.2% fee if currency not found
+      return;
+    }
+    if (feeStructure.type === 'flat') {
+      const fee = feeStructure.value;
+      setFeeAmount(fee);
+    } else if (feeStructure.type === 'variable') {
+      const fee = enteredAmount * feeStructure.value;
+      setFeeAmount(fee);
+    }
+  }
 
   function sendFundsHandler(event) {
     event.preventDefault();
@@ -21,6 +52,7 @@ function SendForm(props) {
       currency: enteredCurrency,
       to: enteredTo,
       resourcePath: enteredResourcePath,
+      fee: feeAmount,
     });
   }
 
@@ -59,9 +91,10 @@ function SendForm(props) {
           </label>
           <input
             type="number"
-            defaultValue={props.amount}
+            placeholder={props.amount}
             ref={amountInputRef}
             step="any"
+            onChange={calculateFee}
           />
         </div>
         <div>
@@ -80,6 +113,19 @@ function SendForm(props) {
             ref={resourcePathInputRef}
           />
         </div>
+        <label
+          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          htmlFor="fee"
+        >
+          Fee
+        </label>
+        <input
+          type="number"
+          value={feeAmount}
+          ref={feeInputRef}
+          step="any"
+          readOnly
+        />
         <div>
           <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
             Send Funds

@@ -55,12 +55,13 @@ function Accounts() {
       </main>
     );
   }
-
+  //signout added as a temporrary fix for the problem
   if (status === 'loading' || accounts.length === 0) {
     return (
       <main>
         <div>
           <h1>Loading accounts...</h1>
+          <button onClick={() => signOut()}>SignOut</button>
         </div>
       </main>
     );
