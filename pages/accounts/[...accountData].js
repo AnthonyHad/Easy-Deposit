@@ -12,12 +12,13 @@ function AccountData() {
   const [name, currency, amount, ...resourcePath] = accountData || [];
 
   useEffect(() => {
-    //Send Transaction Data
-
-    const storedData = localStorage.getItem('transactionData');
-    //if a user makes a mistake this might not be enough in the if statement
-    if (storedData) {
-      const transactionDataWithTwoFactor = JSON.parse(storedData);
+    const storageData = localStorage.getItem('transactionData');
+    if (storageData) {
+      const transactionDataWithTwoFactor = JSON.parse(storageData);
+      if (transactionDataWithTwoFactor.requiresTwoFactor) {
+        localStorage.removeItem('transactionData'); // Clear stored data here
+        return;
+      }
       fetch('/api/send', {
         method: 'POST',
         body: JSON.stringify(transactionDataWithTwoFactor),
@@ -47,6 +48,7 @@ function AccountData() {
             router.push('/accounts/two-factor-auth');
           } else {
             console.log('unexpected response:', data);
+            localStorage.removeItem('transactionData'); // Clear stored data here
           }
         })
         .catch((error) => {
@@ -72,21 +74,63 @@ function AccountData() {
         'transactionData',
         JSON.stringify(transactionDataWithTwoFactor)
       );
-      await signIn('coinbase', undefined, {
-        scope:
-          'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send',
-        'meta[send_limit_amount]': '1',
-        'meta[send_limit_currency]': 'USD',
-        'meta[send_limit_period]': 'day',
-        account: 'all',
+
+      try {
+        await signIn('coinbase', undefined, {
+          scope:
+            'wallet:accounts:read,wallet:transactions:read,wallet:transactions:send',
+          'meta[send_limit_amount]': '1',
+          'meta[send_limit_currency]': 'USD',
+          'meta[send_limit_period]': 'day',
+          account: 'all',
+        });
+        const updatedSession = await getSession();
+        if (
+          !updatedSession ||
+          !updatedSession.scope.includes('wallet:transactions:send')
+        ) {
+          console.log('User does not have required permissions');
+          return;
+        }
+      } catch (error) {
+        console.error('Sign In Failed', error);
+        return;
+      }
+    } else {
+      console.log('Iam hereerererere');
+      localStorage.setItem(
+        'transactionData',
+        JSON.stringify(transactionDataWithTwoFactor)
+      );
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        body: JSON.stringify(transactionDataWithTwoFactor),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
-      // Wait for session to be updated with new scopes
-      await getSession();
+      const data = await response.json();
+      console.log('response data:', data);
 
-      if (!session || !session.scope.includes('wallet:transactions:send')) {
-        console.log('User does not have required permissions');
-        return;
+      if (
+        data.errors &&
+        data.errors[0] &&
+        data.errors[0].id === 'two_factor_required'
+      ) {
+        console.log('I am here');
+        transactionDataWithTwoFactor.requiresTwoFactor = true;
+        transactionDataWithTwoFactor.transactionResponse = data;
+        localStorage.setItem(
+          'transactionData',
+          JSON.stringify(transactionDataWithTwoFactor)
+        );
+        console.log('redirecting user to twoFA page');
+
+        router.push('/accounts/two-factor-auth');
+      } else {
+        console.log('unexpected response:', data);
+        localStorage.removeItem('transactionData'); // Clear stored data here
       }
     }
   }
