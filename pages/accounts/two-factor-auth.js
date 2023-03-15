@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 function TwoFactorAuth() {
   const [transactionData, setTransactionData] = useState(null);
-  const [twoFactorCode, setTwoFactoreCode] = useState('');
+  const [twoFactorCode, setTwoFactorCode] = useState('');
 
   const router = useRouter();
 
@@ -18,8 +18,12 @@ function TwoFactorAuth() {
     event.preventDefault();
 
     // Add the 2FA code to the transaction data
-    transactionData.twoFactorCode = twoFactorCode;
-    delete transactionData.requiresTwoFactor;
+    setTransactionData({
+      ...transactionData,
+      twoFactorCode: twoFactorCode,
+      requiresTwoFactor: false,
+    });
+
     console.log(transactionData);
 
     fetch('/api/send', {
@@ -31,13 +35,14 @@ function TwoFactorAuth() {
     })
       .then((response) => response.json())
       // will need to poll here to check transaction data check documentation
-      .then((data) => console.log(data));
-
-    // setTwoFactoreCode('');
+      .then((data) => {
+        console.log(data);
+        setTwoFactorCode('');
+      });
   }
 
   function handleTwoFactorChange(event) {
-    setTwoFactoreCode(event.target.value);
+    setTwoFactorCode(event.target.value);
   }
 
   function cancelTansaction() {
@@ -49,19 +54,19 @@ function TwoFactorAuth() {
     <Fragment>
       <form
         onSubmit={handleTwoFactorSubmit}
-        class="flex flex-col items-center mt-8 justify-center h-screen"
+        className="flex flex-col items-center mt-8 justify-center h-screen"
       >
-        <label class="text-lg font-medium mb-2">2FA Code:</label>
+        <label className="text-lg font-medium mb-2">2FA Code:</label>
         <input
           type="text"
           value={twoFactorCode}
           onChange={handleTwoFactorChange}
-          class="w-48 outline-none rounded-lg px-3 py-2 mb-4 text-center"
+          className="w-48 outline-none rounded-lg px-3 py-2 mb-4 text-center"
         />
-        <div class="flex justify-between ">
+        <div className="flex justify-between ">
           <button
             type="submit"
-            class="flex-1 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 mr-2"
+            className="flex-1 px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 mr-2"
           >
             Submit
           </button>
