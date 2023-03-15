@@ -56,28 +56,38 @@ function Accounts() {
   //signout added as a temporrary fix for the problem
   if (status === 'loading' || accounts.length === 0) {
     return (
-      <main>
-        <div>
-          <h1>Loading accounts...</h1>
-          <button onClick={() => signOut()}>SignOut</button>
-        </div>
-      </main>
+      <div>
+        <h1>Loading accounts...</h1>
+        <button
+          className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+          onClick={() => signOut()}
+        >
+          Sign out
+        </button>
+      </div>
     );
   }
 
   return (
-    <main>
-      <div>
-        <h1>
+    <div className="flex justify-center items-center h-screen">
+      <div className="container mx-auto p-8">
+        <div className="text-center">
           Here is a list of all supported assets which you can migrate to Ledger
           easily!
-        </h1>
+        </div>
         <Fragment>
-          {accountsList}
-          <button onClick={() => signOut()}>SignOut</button>
+          <div className="mt-8">{accountsList}</div>
+          <div className="text-center mt-8">
+            <button
+              className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+              onClick={() => signOut()}
+            >
+              Sign out
+            </button>
+          </div>
         </Fragment>
       </div>
-    </main>
+    </div>
   );
 }
 
