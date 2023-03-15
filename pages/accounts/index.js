@@ -21,7 +21,6 @@ function Accounts() {
       } catch (error) {
         console.error(error);
         // Display an appropriate error message to the user
-        setMessage('An error occurred while fetching data');
       }
     };
     fetchData();
