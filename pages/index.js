@@ -5,21 +5,24 @@ import { authOptions } from './api/auth/[...nextauth]';
 export default function SignIn({ providers }) {
   return (
     <>
-      <main className="container mx-auto">
-        <div className="flex flex-col items-center">
-          <h1 className="text-4xl">Easy Deposit</h1>
-          <h2 className="text-lg">
+      <div className="flex justify-center items-center h-screen">
+        <div className="container mx-auto p-8">
+          <div className="text-4xl">Easy Deposit</div>
+          <div className="text-lg">
             Deposit crypto from you favorite exchanges to your Ledger easily!
-          </h2>
+          </div>
+          {Object.values(providers).map((provider) => (
+            <div className="mt-10" key={provider.name}>
+              <button
+                className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+                onClick={() => signIn(provider.id)}
+              >
+                Deposit from {provider.name}
+              </button>
+            </div>
+          ))}
         </div>
-      </main>
-      {Object.values(providers).map((provider) => (
-        <div key={provider.name}>
-          <button onClick={() => signIn(provider.id)}>
-            Sign in with {provider.name}
-          </button>
-        </div>
-      ))}
+      </div>
     </>
   );
 }
