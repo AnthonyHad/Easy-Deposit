@@ -10,20 +10,24 @@ function Accounts() {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/secret');
-        const data = await res.json();
+    if (!session) {
+      router.replace('/');
+    } else {
+      const fetchData = async () => {
+        try {
+          const res = await fetch('/api/secret');
+          const data = await res.json();
 
-        if (data.message) {
-          setAccounts(data.accounts);
+          if (data.message) {
+            setAccounts(data.accounts);
+          }
+        } catch (error) {
+          console.error(error);
+          // Display an appropriate error message to the user
         }
-      } catch (error) {
-        console.error(error);
-        // Display an appropriate error message to the user
-      }
-    };
-    fetchData();
+      };
+      fetchData();
+    }
   }, [session]);
 
   const accountsList = accounts.map(
@@ -37,23 +41,8 @@ function Accounts() {
     )
   );
 
-  useEffect(() => {
-    if (!session) {
-      router.replace('/');
-    }
-  }, [session]);
-
-  if (!session) {
-    return (
-      <main>
-        <div>
-          <h1>You are not signed in, please sign in first</h1>
-        </div>
-      </main>
-    );
-  }
   //signout added as a temporrary fix for the problem
-  if (status === 'loading' || accounts.length === 0) {
+  if (accounts.length === 0 && session) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <div className="text-3xl font-bold mb-8">Loading accounts...</div>
@@ -65,6 +54,8 @@ function Accounts() {
         </button>
       </div>
     );
+  } else if (!session) {
+    return;
   }
 
   return (
@@ -92,5 +83,4 @@ function Accounts() {
 
 export default Accounts;
 
-//Questions:
-// Not sure I need to fetch everytime the accounts, might need a combination of GetStatic Props and useEffect
+// Accounts might not need to be fetched everytime we can us a combination getStaticProps and useEffect
