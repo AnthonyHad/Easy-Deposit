@@ -6,7 +6,7 @@ async function handler(req, res) {
   const session = await getServerSession(req, res);
 
   if (session) {
-    console.log('token', token);
+    console.log('accountPagetoken', token);
     const url = 'https://api.coinbase.com/v2/accounts';
     const options = {
       headers: {
@@ -29,11 +29,11 @@ async function handler(req, res) {
 
     try {
       res.send({
-        message: ' You have gained access to the super secret page!',
+        message: 'Success!',
         accounts: formattedWalletData,
       });
     } catch (error) {
-      console.log('I am here');
+      console.log('Failed to fetch accounts');
     }
   } else {
     res.send({
