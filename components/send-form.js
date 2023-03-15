@@ -57,82 +57,102 @@ function SendForm(props) {
   }
 
   return (
-    <form className="w-full max-w-lg ml-8" onSubmit={sendFundsHandler}>
-      <div className="flex flex-wrap -mx-3 mb-6">
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label
-            htmlFor="accountName"
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          >
-            Account Name
-          </label>
-          <input type="text" defaultValue={props.name} readOnly />
-        </div>
-        <div>
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="currency"
-          >
-            Currency
-          </label>
-          <input
-            type="text"
-            defaultValue={props.currency}
-            ref={currencyInputRef}
-            readOnly
-          />
-        </div>
-        <div>
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="amount"
-          >
-            Balance
-          </label>
-          <input
-            type="number"
-            placeholder={props.amount}
-            ref={amountInputRef}
-            step="any"
-            onChange={calculateFee}
-          />
-        </div>
-        <div>
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="recipient"
-          >
-            To
-          </label>
-          <input type="text" placeholder="0x123435634" ref={toInputRef} />
-        </div>
-        <div>
-          <input
-            type="hidden"
-            defaultValue={props.resourcePath}
-            ref={resourcePathInputRef}
-          />
-        </div>
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="fee"
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-lg p-8">
+        <form
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={sendFundsHandler}
         >
-          Fee
-        </label>
-        <input
-          type="number"
-          value={feeAmount}
-          ref={feeInputRef}
-          step="any"
-          readOnly
-        />
-        <div>
-          <button className="bg-indigo-500 hover:bg-indigo-700 text-base rounded px-4">
-            Send Funds
-          </button>
-        </div>
+          <div className="mb-4">
+            <label
+              htmlFor="accountName"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Account Name
+            </label>
+            <input
+              type="text"
+              defaultValue={props.name}
+              readOnly
+              className="appearance-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="currency"
+            >
+              Currency
+            </label>
+            <input
+              type="text"
+              defaultValue={props.currency}
+              ref={currencyInputRef}
+              readOnly
+              className="appearance-none w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="amount"
+            >
+              Balance
+            </label>
+            <input
+              type="number"
+              placeholder={props.amount}
+              ref={amountInputRef}
+              step="any"
+              onChange={calculateFee}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="recipient"
+            >
+              To
+            </label>
+            <input
+              type="text"
+              placeholder="0x123435634"
+              ref={toInputRef}
+              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="hidden"
+              defaultValue={props.resourcePath}
+              ref={resourcePathInputRef}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="fee"
+            >
+              Fee
+            </label>
+            <input
+              type="number"
+              value={feeAmount}
+              ref={feeInputRef}
+              step="any"
+              readOnly
+              className="appearance-none  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="flex justify-center">
+            <button className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">
+              Send Funds
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
 
