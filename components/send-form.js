@@ -136,14 +136,18 @@ function SendForm(props) {
             >
               Fee
             </label>
-            <input
-              type="number"
-              value={feeAmount}
-              ref={feeInputRef}
-              step="any"
-              readOnly
-              className="appearance-none  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+            <div className="flex items-center ">
+              <input
+                type="number"
+                value={feeAmount}
+                ref={feeInputRef}
+                step="any"
+                placeholder={props.currency}
+                readOnly
+                className="appearance-none  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+              <div className="ml-2 text-gray-500 mr-20">{props.currency}</div>
+            </div>
           </div>
           <div className="flex justify-center">
             <button className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2">

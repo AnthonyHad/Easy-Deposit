@@ -55,10 +55,10 @@ function Accounts() {
   //signout added as a temporrary fix for the problem
   if (status === 'loading' || accounts.length === 0) {
     return (
-      <div>
-        <h1>Loading accounts...</h1>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="text-3xl font-bold mb-8">Loading accounts...</div>
         <button
-          className="px-4 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
+          className="px-4 py-2 text-lg text-white font-semibold rounded-full bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
           onClick={() => signOut()}
         >
           Sign out
@@ -70,7 +70,7 @@ function Accounts() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="container mx-auto p-8">
-        <div className="text-center">
+        <div className="text-center font-semibold text-l">
           Here is a list of all supported assets which you can migrate to Ledger
           easily!
         </div>
